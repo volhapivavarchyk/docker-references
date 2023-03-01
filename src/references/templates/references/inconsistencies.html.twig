@@ -1,0 +1,68 @@
+{# templates/references/inconsistencies.html.twig #}
+{% extends 'references/layout.html.twig' %}
+{% block page_title %}
+    <h1>Inconsistencies in blob reference counts</h1>
+{% endblock %}
+
+{% block page_contents %}
+
+    {% set mismatchesTitle = mismatches is empty ? 'There are no mismatches' : 'Mismatches' %}
+    {% set missingBlobsTitle = missingBlobs is empty ? 'There are no missing blobs' : 'References to missing blobs' %}
+    {% set orphanBlobsTitle = orphansBlobs is empty ? 'There are no orphan blobs with nonzero reference count' : 'Orphan blobs with nonzero reference count' %}
+
+    <h3> {{ mismatchesTitle }}</h3>
+    {% if not mismatches is empty %}
+    <div style="width: 50%; margin-bottom: 50px;">
+        <table style="width: 100%; text-align: center;">
+            <tr>
+                <th class="bg-dark">ID Blob Storage</th>
+                <th>Reference Count</th>
+                <th>Reference Count (actual)</th>
+            </tr>
+            {% for mismatch in mismatches %}
+                <tr>
+                    <td>{{ mismatch.blobStorageID }}</td>
+                    <td>{{ mismatch.numReferences }}</td>
+                    <td>{{ mismatch.actualNumReferences }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    <h3>{{ missingBlobsTitle }}</h3>
+    {% if not missingBlobs is empty %}
+        <div style="width: 50%; margin-bottom: 50px;">
+        <table>
+            <tr>
+                <th>ID Blob Storage</th>
+                <th>Reference Count</th>
+            </tr>
+            {% for value, key in missingBlobs %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+
+    <h3>{{ orphanBlobsTitle }}</h3>
+    {% if not orphansBlobs is empty %}
+        <div style="width: 50%; margin-bottom: 50px;">
+        <table>
+            <tr>
+                <th>ID Blob Storage</th>
+                <th>Reference Count</th>
+            </tr>
+            {% for value, key in orphansBlobs %}
+                <tr>
+                    <td>{{ key }}</td>
+                    <td>{{ value }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+.env
+.idea/
+/docker/mysql
+/docker/mysql-dump
+/docker/mysql/init/Proton*
+/docker/nginx/logs
