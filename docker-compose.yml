@@ -31,6 +31,8 @@ services:
             DB_NAME_SHARD: $DB_NAME_SHARD
             DB_USER: $DB_USER
             DB_PASSWORD: $DB_PASSWORD
+            DB_ROOT_USER: $DB_ROOT_USER
+            DB_ROOT_PASSWORD: $DB_ROOT_PASSWORD
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         links:
             - ref-db
@@ -56,15 +58,14 @@ services:
         volumes:
             - ./docker/mysql-init:/docker-entrypoint-initdb.d:rw
             - ./docker/mysql/:/var/lib/mysql/:rw
-#            - ./docker/mysql-init/mysqld.cnf:/etc/mysql/mysqld.cnf
         command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password --init-file /docker-entrypoint-initdb.d/mysql-init.sql
         environment:
             MYSQL_ROOT_HOST: $ROOT_HOST
             MYSQL_DATABASE_GLOBAL: $DB_NAME_GLOBAL
             MYSQL_DATABASE_SHARD: $DB_NAME_SHARD
+            MYSQL_DATABASE: $DB_NAME
             MYSQL_USER: $DB_USER
             MYSQL_PASSWORD: $DB_PASSWORD
-            MYSQL_ROOT_PASSWORD: $DB_ROOT_PASSWORD
             MYSQL_ALLOW_EMPTY_PASSWORD: $DB_ALLOW_EMPTY_PASSWORD
         restart: always
         networks:
@@ -73,3 +74,4 @@ services:
 networks:
     u-online:
         driver: bridge
+
