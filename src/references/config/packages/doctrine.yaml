@@ -1,19 +1,4 @@
 doctrine:
-#    dbal:
-#        default_connection: default
-#        connections:
-#            default:
-#                dbname: Symfony
-#                user: root
-#                password: null
-#                host: localhost
-#                server_version: '5.6'
-#            proton_mail_global:
-#                dbname: customer
-#                user: root
-#                password: null
-#                host: localhost
-#                server_version: '5.7'
     dbal:
         default_connection: default
         connections:
@@ -23,16 +8,11 @@ doctrine:
                 url: '%env(resolve:DATABASE_GLOBAL_URL)%'
             proton_mail_shard:
                 url: '%env(resolve:DATABASE_SHARD_URL)%'
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '15'
     orm:
         default_entity_manager: default
         entity_managers:
             default:
                 connection: default
-#                auto_generate_proxy_classes: true
-#                enable_lazy_ghost_objects: true
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
                 auto_mapping: true
                 mappings:
@@ -43,10 +23,7 @@ doctrine:
                         alias: Main
             proton_mail_global:
                 connection: proton_mail_global
-#                auto_generate_proxy_classes: true
-#                enable_lazy_ghost_objects: true
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-#                auto_mapping: true
                 mappings:
                     Global:
                         is_bundle: false
@@ -55,10 +32,7 @@ doctrine:
                         alias: Global
             proton_mail_shard:
                 connection: proton_mail_shard
-#                auto_generate_proxy_classes: true
-#                enable_lazy_ghost_objects: true
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-#                auto_mapping: true
                 mappings:
                     Shard:
                         is_bundle: false

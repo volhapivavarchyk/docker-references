@@ -45,13 +45,21 @@ class BlobReferenceCounterHelperTest extends TestCase
     {
         yield [
             [
-                [1 => 2,2 => 2,3 => 3,],
-                [1 => 1,2 => 3,3 => 3,],
+                0 => [
+                    1 => 2,
+                    2 => 2,
+                    3 => 3,
+                ],
+                1 => [
+                    1 => 1,
+                    2 => 3,
+                    3 => 3,
+                ],
             ],
             [
                 [
-                    ['blobStorageID' => 1, 'numReferences' => 2, 'actualNumReferences' => 1],
-                    ['blobStorageID' => 2, 'numReferences' => 2, 'actualNumReferences' => 3],
+                    ['blobStorageID' => 1, 'numReferences' => 1, 'actualNumReferences' => 2],
+                    ['blobStorageID' => 2, 'numReferences' => 3, 'actualNumReferences' => 2],
                 ],
                 [],
                 [],
@@ -65,11 +73,11 @@ class BlobReferenceCounterHelperTest extends TestCase
             ],
             [
                 [
-                    ['blobStorageID' => 1, 'numReferences' => 2,],
-                    ['blobStorageID' => 2, 'numReferences' => 2,],
+                    ['blobStorageID' => 1, 'numReferences' => 1, 'actualNumReferences' => 2],
+                    ['blobStorageID' => 2, 'numReferences' => 3, 'actualNumReferences' => 2],
                 ],
-                [[4=>3]],
-                [[3=>3]],
+                [3=>3],
+                [4=>3],
             ]
         ];
     }

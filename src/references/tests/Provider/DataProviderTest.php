@@ -13,6 +13,7 @@ use App\Repository\Shard\ContactDataRepository;
 use App\Repository\Shard\MessageDataRepository;
 use App\Repository\Shard\OutsideAttachmentRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectRepository;
 use Generator;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +25,8 @@ class DataProviderTest extends TestCase
         parent::setUp();
 
         $this->doctrine                    = $this->createMock(ManagerRegistry::class);
+
+        $this->outsideAttachmentRepository = $this->createMock(ObjectRepository::class);
         $this->blobStorageRepository       = $this->createMock(BlobStorageRepository::class);
         $this->sentAttachmentRepository    = $this->createMock(SentAttachmentRepository::class);
         $this->sentMessageRepository       = $this->createMock(SentMessageRepository::class);
@@ -31,6 +34,18 @@ class DataProviderTest extends TestCase
         $this->contactDataRepository       = $this->createMock(ContactDataRepository::class);
         $this->messageDataRepository       = $this->createMock(MessageDataRepository::class);
         $this->outsideAttachmentRepository = $this->createMock(OutsideAttachmentRepository::class);
+
+        $this->doctrine->expects($this->exactly(7))
+            ->method('getRepository')
+            ->willReturnOnConsecutiveCalls(
+                $this->blobStorageRepository,
+                $this->sentAttachmentRepository,
+                $this->sentMessageRepository,
+                $this->attachmentRepository,
+                $this->contactDataRepository,
+                $this->messageDataRepository,
+                $this->outsideAttachmentRepository
+            );
 
         $this->dataProvider = new DataProvider($this->doctrine);
     }
@@ -40,17 +55,6 @@ class DataProviderTest extends TestCase
      */
     public function testGetNumReferences(array $input, array $expected): void
     {
-        $this->doctrine->expects($this->exactly(7))
-            ->method('getRepository')
-            ->willReturnOnConsecutiveCalls(
-                $this->blobStorageRepository,
-                $this->sentAttachmentRepository,
-                $this->sentMessageRepository,
-                $this->attachmentRepository,
-                $this->contactDataRepository,
-                $this->messageDataRepository
-            );
-
         $this->sentAttachmentRepository->expects($this->once())
             ->method('getBlobReferences')
             ->willReturn($input[0]);

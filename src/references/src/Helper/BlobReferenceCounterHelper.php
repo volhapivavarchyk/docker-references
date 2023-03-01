@@ -31,7 +31,7 @@ class BlobReferenceCounterHelper
     {
         $result = array_filter(
             $numReferences,
-            fn ($value, $key) => $actualNumReferences[$key] !== $value && $value !== 0,
+            fn ($value, $key) => array_key_exists($key, $actualNumReferences) && $actualNumReferences[$key] !== $value && $value !== 0,
             ARRAY_FILTER_USE_BOTH
         );
 

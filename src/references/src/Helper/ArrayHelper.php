@@ -17,7 +17,7 @@ class ArrayHelper extends EntityRepository
         $result = [];
         foreach ($arrays as $array) {
             foreach ($array as $key => $value) {
-                $result[$key] = $result[$key] ?? $value;
+                $result[$key] = isset($result[$key]) ? $result[$key] + $value : $value;
             }
         }
 
